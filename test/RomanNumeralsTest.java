@@ -37,66 +37,86 @@ public class RomanNumeralsTest {
     @Test
     void tetTwoSameNumber(){
         RomanNumerals roman = new RomanNumerals();
-        assertEquals(2, roman.convertRomanNumToInt("II"));
-        assertEquals(20, roman.convertRomanNumToInt("XX"));
-        assertEquals(200, roman.convertRomanNumToInt("CC"));
-        assertEquals(2000, roman.convertRomanNumToInt("MM"));
-    }
-    @Test 
-    void tetThreeSameNumber(){
-        RomanNumerals roman = new RomanNumerals();
-        assertEquals(3, roman.convertRomanNumToInt("III"));
-        assertEquals(15, roman.convertRomanNumToInt("VVV"));
-        assertEquals(150, roman.convertRomanNumToInt("LLL"));
-        assertEquals(1500, roman.convertRomanNumToInt("DDD"));
-        assertEquals(3000, roman.convertRomanNumToInt("MMM"));
+ assertAll("Test multiple Roman numeral assertions",
+
+            () -> assertEquals(2, roman.convertRomanNumToInt("II")),
+            () -> assertEquals(20, roman.convertRomanNumToInt("XX")),
+            () -> assertEquals(200, roman.convertRomanNumToInt("CC")),
+            () -> assertEquals(2000, roman.convertRomanNumToInt("MM"))
+        );
     }
     @Test
+void tetThreeSameNumber() {
+        RomanNumerals roman = new RomanNumerals();
+
+        assertAll("Test multiple Roman numerals with same numbers",
+            () -> assertEquals(3, roman.convertRomanNumToInt("III")),
+            () -> assertEquals(15, roman.convertRomanNumToInt("VVV")),  // This will fail
+            () -> assertEquals(150, roman.convertRomanNumToInt("LLL")),  // This will fail
+            () -> assertEquals(1500, roman.convertRomanNumToInt("DDD")),  // This will fail
+            () -> assertEquals(3000, roman.convertRomanNumToInt("MMM"))
+        );
+    }
+@Test
     void testMultipleDigitsFirstLarger() {
         RomanNumerals roman = new RomanNumerals();
 
-        assertEquals(26, roman.convertRomanNumToInt("XXVI"));
-        assertEquals(27, roman.convertRomanNumToInt("XXVII"));
-        assertEquals(67, roman.convertRomanNumToInt("LXVII"));
-        assertEquals(1207, roman.convertRomanNumToInt("MCCVII"));
-        assertEquals(160, roman.convertRomanNumToInt("CLX"));
-        assertEquals(666, roman.convertRomanNumToInt("DCLXVI"));
+        assertAll("Test multiple Roman numerals with larger digits first",
+            () -> assertEquals(26, roman.convertRomanNumToInt("XXVI")),
+            () -> assertEquals(27, roman.convertRomanNumToInt("XXVII")),
+            () -> assertEquals(67, roman.convertRomanNumToInt("LXVII")),
+            () -> assertEquals(1207, roman.convertRomanNumToInt("MCCVII")),
+            () -> assertEquals(160, roman.convertRomanNumToInt("CLX")),
+            () -> assertEquals(666, roman.convertRomanNumToInt("DCLXVI"))
+        );
     }
-    @Test
+ @Test
     void testMixedPatternCases() {
         RomanNumerals roman = new RomanNumerals();
-        assertEquals(74, roman.convertRomanNumToInt("LXXIV"));     
-        assertEquals(76, roman.convertRomanNumToInt("LXXVI"));     
-        assertEquals(78, roman.convertRomanNumToInt("LXXVIII"));   
-        assertEquals(84, roman.convertRomanNumToInt("LXXXIV"));    
+
+        assertAll("Test mixed pattern Roman numerals",
+            () -> assertEquals(74, roman.convertRomanNumToInt("LXXIV")),
+            () -> assertEquals(76, roman.convertRomanNumToInt("LXXVI")),
+            () -> assertEquals(78, roman.convertRomanNumToInt("LXXVIII")),
+            () -> assertEquals(84, roman.convertRomanNumToInt("LXXXIV"))
+        );
     }
 
     /*/////////////////////////negative case////////////////////////////*/
 
          
-    @Test
+@Test
     void testInvalidCharacters() {
         RomanNumerals roman = new RomanNumerals();
-            assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("J"));
-            assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("K"));
-            assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("ZXC"));
-            assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("123"));
-            assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("!@#"));
-            assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("IVXK"));
+
+        assertAll("Test invalid Roman numerals with illegal characters",
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("J")),
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("K")),
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("ZXC")),
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("123")),
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("!@#")),
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("IVXK"))
+        );
     }
-    @Test
+ @Test
     void testInvalidRepetition() {
         RomanNumerals roman = new RomanNumerals();
-        assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("VV"));
-        assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("LL"));
-        assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("DD"));
+
+        assertAll("Test invalid Roman numerals with repetitions beyond limits",
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("VV")),
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("LL")),
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("DD"))
+        );
     }
-     @Test
-        void testMoreThanThreeRepetitions() {
-            RomanNumerals roman = new RomanNumerals();
-            assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("IIII"));
-            assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("XXXX"));
-            assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("CCCC"));
-            assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("MMMM"));
-        }
+ @Test
+    void testMoreThanThreeRepetitions() {
+        RomanNumerals roman = new RomanNumerals();
+
+        assertAll("Test invalid Roman numerals with more than three repetitions",
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("IIII")),
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("XXXX")),
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("CCCC")),
+            () -> assertThrows(IllegalArgumentException.class, () -> roman.convertRomanNumToInt("MMMM"))
+        );
+    }
 }
